@@ -1,5 +1,5 @@
-from core.models.FoundItem import FoundItem
-from core.models.LostItem import LostItem
+from core.models.report import Report
+from core.models.user import User
 
 class Controller(object):
     def __init__(self):
