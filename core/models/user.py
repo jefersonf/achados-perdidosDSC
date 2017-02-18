@@ -14,10 +14,12 @@ class User:
     def report_lost(self, title, description, type, local, date, shift, photo, phone):
         report = ReportLost(title, description, type, local, date, shift, photo, phone)
         self.reports.append(report)
+        return report
 
     def report_found(self, title, description, type, local, date, shift, photo, phone):
         report = ReportFound(title, description, type, local, date, shift, photo, phone)
         self.reports.append(report)
+        return report
 
     def set_name(self, name):
         self.name = name
