@@ -82,6 +82,7 @@ def root():
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
+    print(request.form)
     db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], "nocategory"])
     db.commit()
     return root()
