@@ -76,9 +76,6 @@ def root():
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
-    print "aqui"
-    print request.form['name']
-    print request.form['text']
     db.execute('insert into entries (name, text) values (?, ?)', [request.form['name'], request.form['text']])
     db.commit()
     #flash('New entry was successfully posted')

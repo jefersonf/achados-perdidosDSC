@@ -1,12 +1,7 @@
 <div ng-controller="homeController" class="container-fluid display-table">
 
 	<!-- SIDEBAR -->
-	<div left-side-bar></div>
-	{% for entry in entries %}
-    <li><h2>{{ entry.name }}</h2>{{ entry.text|safe }}
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
-  {% endfor %}
+
 <!--
 	<div class="container-fluid" style="padding: 10px">
 		<div class="column-cards">
