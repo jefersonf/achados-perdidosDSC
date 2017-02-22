@@ -82,45 +82,57 @@ def root():
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
-    print(request.form['inlineRadioOptions'])
-    db.execute('insert into entries (name, text, status) values (?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions']])
+    db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], "nocategory"])
     db.commit()
     return root()
 
-@app.route('/entries', methods=['GET'])
+@app.route('/item', methods=['GET'])
 def get_all():
     db = get_db()
-    cur = db.execute('select name, text, status from entries order by id desc')
+    cur = db.execute('select name, text, status, category from entries order by id desc')
     entries = cur.fetchall()
-    return json.dumps([(entry[0], entry[1], entry[2]) for entry in entries])
-    #return json.dumps(dict(entries))
-    #return jsonify(entries=entries)
-    #return show_entries(entries)
-
+    dic = {}
+    dic['item'] = []
+    for entry in entries:
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
+        dic['item'].append(aux)
+    return json.dumps(dic)
 
 @app.route('/achados', methods=['GET'])
 def get_achados():
     db = get_db()
-    cur = db.execute('select name, text from entries where status = "option1" order by id desc')
+    cur = db.execute('select name, text, status, category from entries where status = "option1" order by id desc')
     entries = cur.fetchall()
-    return json.dumps([(entry[0], entry[1]) for entry in entries])
+    dic = {}
+    dic['item'] = []
+    for entry in entries:
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
+        dic['item'].append(aux)
+    return json.dumps(dic)
 
 @app.route('/perdidos', methods=['GET'])
 def get_perdidos():
     db = get_db()
-    cur = db.execute('select name, text from entries where status = "option2" order by id desc')
+    cur = db.execute('select name, text, status, category from entries where status = "option2" order by id desc')
     entries = cur.fetchall()
-    return json.dumps([(entry[0], entry[1]) for entry in entries])
+    dic = {}
+    dic['item'] = []
+    for entry in entries:
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
+        dic['item'].append(aux)
+    return json.dumps(dic)
 
-
-'''
-@app.route('/category/<category>')
-def get_by_category():
+@app.route('/category/<category>', methods=['GET'])
+def get_by_category(category):
     db = get_db()
-    cur = db.execute('select name, text, status from entries where category =' + '"' + category + '"' + 'order by id desc')
+    cur = db.execute('select name, text, status, category from entries where category =' + '"' + category + '"' + 'order by id desc')
     entries = cur.fetchall()
-    return show_entries(entries)
-'''
+    dic = {}
+    dic['item'] = []
+    for entry in entries:
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
+        dic['item'].append(aux)
+    return json.dumps(dic)
 
 @app.route('/site/')
 @app.route('/site/<path:url>')
