@@ -83,7 +83,7 @@ def root():
 def add_item():
     db = get_db()
     print(request.form)
-    db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], "nocategory"])
+    db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
     db.commit()
     return root()
 

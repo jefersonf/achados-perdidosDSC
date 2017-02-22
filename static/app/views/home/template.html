@@ -14,6 +14,8 @@
 						</div>
 						<div class="panel-body">
 							{{item.description}}
+							{{item.category}}
+							{{item.status}}
 						</div>
 					</div>
 	    </div>
@@ -38,15 +40,21 @@
 			        <form action="/item" method=post>
 			          <div class="form-group">
 			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Achado
+			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found"> Achado
 			            </label>
 			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Perdido
+			              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="lost"> Perdido
 			            </label>
 			            <br><br>
 			            <input type="text" class="form-control" placeholder="Título" ng-maxlength=10 name="name">
 			            <br>
 			            <textarea class="form-control" rows="3" placeholder="Descrição" name="text"></textarea>
+									<br>
+									<select class="form-control" required name="category">
+											<option value = '' selected disabled class="text-hide">Categoria</option>
+											<option value = 'Roupa' >Roupa</option>
+											<option value = 'Estojo' >Estojo</option>
+										</select>
 									<br>
 									<div class="pull-right">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
