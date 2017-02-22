@@ -73,13 +73,16 @@ def root():
     entries = cur.fetchall()
     return render_template('index.html', entries=entries)
 
-@app.route('/item')
+@app.route('/item', methods=['POST'])
+def add_item():
     db = get_db()
-    db.execute('insert into entries (name, text) values (?, ?)',
-                 [request.form['name'], request.form['text']])
+    print "aqui"
+    print request.form['name']
+    print request.form['text']
+    db.execute('insert into entries (name, text) values (?, ?)', [request.form['name'], request.form['text']])
     db.commit()
-    flash('New entry was successfully posted')
-    return render_template('index.html', entries=entries)
+    #flash('New entry was successfully posted')
+    return root()
 
 @app.route('/site/')
 @app.route('/site/<path:url>')
