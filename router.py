@@ -69,16 +69,16 @@ controller = Controller()
 @app.route('/')
 def root():
     db = get_db()
-    cur = db.execute('select name, text from entries order by id desc')
+    cur = db.execute('select name, text, status from entries order by id desc')
     entries = cur.fetchall()
     return render_template('index.html', entries=entries)
 
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
-    db.execute('insert into entries (name, text) values (?, ?)', [request.form['name'], request.form['text']])
+    print(request.form['inlineRadioOptions'])
+    db.execute('insert into entries (name, text, status) values (?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions']])
     db.commit()
-    #flash('New entry was successfully posted')
     return root()
 
 @app.route('/site/')
