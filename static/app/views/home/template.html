@@ -8,19 +8,7 @@
 
 				<form class="navbar-form" role="search">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search">
-						<span class="input-group-btn">
-							<button type="reset" class="btn btn-default">
-								<span class="glyphicon glyphicon-remove">
-									<span class="sr-only">Close</span>
-								</span>
-							</button>
-							<button type="submit" class="btn btn-default">
-								<span class="glyphicon glyphicon-search">
-									<span class="sr-only">Search</span>
-								</span>
-							</button>
-						</span>
+						<input type="text" class="form-control" placeholder="Search" ng-model="searchText">
 					</div>
 				</form>
 			</div>
@@ -30,7 +18,7 @@
 	<div class="" style="padding: 10px">
 		<!-- column 1 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items">
+	    <div class="portlet" ng-repeat="item in items | filter:searchText">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
@@ -44,7 +32,7 @@
 		</div>
 		<!-- column 2 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items">
+	    <div class="portlet" ng-repeat="item in items | filter:searchText">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
