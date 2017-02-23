@@ -93,6 +93,14 @@ html, body {
 	margin: 0 auto;
 	padding: 15px 0px 5px 0px;
 }
+.upper_col_title {
+	color: #777777;
+	position: relative;
+	/* border: 1px solid violet; */
+	width: 300px;
+	margin-left: 10px;
+	float: left;
+}
 #content{
 	margin: 20px 0 50px 0;
 /*	background-color: #fff;
@@ -208,6 +216,12 @@ body, html{
 	box-shadow: 1px 3px 1px #999;
 	border-radius: 2px;
 }
+
+.portlet:hover {
+	cursor: pointer;
+	box-shadow: 1px 3px 1px #777;
+}
+
 .portlet-header {
     padding: 0.1em 1.0em;
     position: relative;

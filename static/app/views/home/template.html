@@ -16,13 +16,21 @@
 	</nav>
 
 	<div class="" style="padding: 10px">
+		
+		<div class="upper_col_title">
+			<h2> Achados </h2>
+		</div>
+		<div class="upper_col_title">
+			<h2> Perdidos </h2>
+		</div>
+
 		<!-- column 1 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items | filter:searchText">
+	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
-								<img src="https://blog.addthiscdn.com/wp-content/uploads/2016/03/01125908/200-200-pixels.png" alt="Foto"/>
+								<img src="https://img.clipartfox.com/04da3594400d1f6a1cde4aa5a4a19b78_-black-and-white-online-images-white_2000-1333.png" alt="Foto"/>
 						</div>
 						<div class="panel-body">
 							{{item.description}}
@@ -32,16 +40,15 @@
 		</div>
 		<!-- column 2 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items | filter:searchText">
+	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
-								<img src="https://blog.addthiscdn.com/wp-content/uploads/2016/03/01125908/200-200-pixels.png" alt="Foto"/>
+								<img src="https://img.clipartfox.com/04da3594400d1f6a1cde4aa5a4a19b78_-black-and-white-online-images-white_2000-1333.png" alt="Foto"/>
 						</div>
 						<div class="panel-body">
 							{{item.description}}
 							{{item.category}}
-							{{item.status}}
 						</div>
 					</div>
 	    </div>
@@ -66,7 +73,7 @@
 			        <form action="/item" method=post>
 			          <div class="form-group">
 			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found"> Achado
+			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found" checked> Achado
 			            </label>
 			            <label class="radio-inline">
 			              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="lost"> Perdido
@@ -77,7 +84,7 @@
 			            <textarea class="form-control" rows="3" placeholder="Descrição" name="text"></textarea>
 									<br>
 									<select class="form-control" required name="category">
-											<option value = '' selected disabled class="text-hide">Categoria</option>
+											<option value = 'Outro' selected disabled class="text-hide">Categoria</option>
 											<option value = 'Roupa' >Roupa</option>
 											<option value = 'Estojo' >Estojo</option>
 										</select>
