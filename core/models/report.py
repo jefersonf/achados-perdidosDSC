@@ -4,6 +4,9 @@ class Report:
     __metaclass__ = ABCMeta
 
     def __init__(self, title, description, type, local, date, shift, photo, phone):
+        if title is None or description is None or type is None or local is None \
+                or date is None or phone is None:
+            raise Exception("ERROR - Attributes missing")
         self.title = title
         self.description = description
         self.type = type

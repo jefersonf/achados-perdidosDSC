@@ -2,7 +2,6 @@ CCC = '@ccc.ufcg.edu.br'
 DSC = '@dsc.ufcg.edu.br'
 COMP = '@computacao.ufcg.edu.br'
 
-@staticmethod
 def validate_email(email):
     n = len(email)
     if len(email) < 16:
@@ -12,7 +11,6 @@ def validate_email(email):
     else:
         return False
 
-@staticmethod
 def check_user(username, users):
     for u in users:
         if u.username == username:
