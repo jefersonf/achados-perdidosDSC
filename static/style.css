@@ -78,14 +78,21 @@ html, body {
 .row {
 	float: right;
 	display: flex !important;
-	margin-left: 200px;
 	min-height: 50px !important;
+	padding-top: 50px;
 }
 
 #main-content .row .navbar {
 	border-radius: 0;
 }
 
+.navbar-form {
+	border: 1px solid transparent;
+	width: 338px;
+	position: relative;
+	margin: 0 auto;
+	padding: 15px 0px 5px 0px;
+}
 #content{
 	margin: 20px 0 50px 0;
 /*	background-color: #fff;
@@ -187,15 +194,19 @@ body, html{
 }
 
 .column-cards {
-	width: 250px;
+	width: 300px;
 	float: left;
 	padding-bottom: 50px;
-	background-color: #eaeaea;
+	background-color: #ddd;
 	margin-left: 10px;
 	border-radius: 5px;
 }
 .portlet {
 	margin: 0.8em;
+	margin-bottom: 50px;
+	background: #fefefe;
+	box-shadow: 1px 3px 1px #999;
+	border-radius: 2px;
 }
 .portlet-header {
     padding: 0.1em 1.0em;
@@ -220,9 +231,9 @@ body, html{
 .portlet-content span {
     font-size: 9pt;
 }
-
+s
 .portlet-content .panel-body {
-	padding: 0 !important;
+	padding: 25px 10px 10px 15px !important;
 }
 
 .portlet-content .item-photo {
@@ -311,6 +322,13 @@ h1.panel-title {
     background-color: #3498db;
 }
 
+.display-table {
+	padding-top: 75px;
+	margin: 0 auto;
+	height: 100%;
+	width: 790px;
+}
+
 .display-table-row{
 	display: table-row;
 	height: 100%;
@@ -340,4 +358,8 @@ h1.panel-title {
     width: 100%;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.alert {
+	width: 600px;
 }
