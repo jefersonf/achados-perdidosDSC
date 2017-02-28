@@ -16,7 +16,7 @@
 	</nav>
 
 	<div class="" style="padding: 10px">
-		
+
 		<div class="upper_col_title">
 			<h2> Achados </h2>
 		</div>
@@ -70,7 +70,7 @@
 			        <h4>Novo Item</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form action="/item" method=post>
+			        <form name="addItemForm" action="/item" method=post>
 			          <div class="form-group">
 			            <label class="radio-inline">
 			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found" checked> Achado
@@ -79,12 +79,13 @@
 			              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="lost"> Perdido
 			            </label>
 			            <br><br>
-			            <input type="text" class="form-control" placeholder="Título" ng-maxlength=10 name="name">
+			            <input type="text" class="form-control" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
 			            <br>
-			            <textarea class="form-control" rows="3" placeholder="Descrição" name="text"></textarea>
+			            <textarea class="form-control" rows="3" placeholder="Descrição" name="text" maxlength="200"></textarea>
 									<br>
+									<label>Categoria</label>
 									<select class="form-control" required name="category">
-											<option value = 'Outro' selected disabled class="text-hide">Categoria</option>
+											<option value = 'Outro' selected class="text-hide">Outro</option>
 											<option value = 'Roupa' >Roupa</option>
 											<option value = 'Estojo' >Estojo</option>
 										</select>
