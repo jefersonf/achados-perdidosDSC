@@ -26,13 +26,15 @@
 
 		<!-- column 1 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
+	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
-								<img src="https://img.clipartfox.com/04da3594400d1f6a1cde4aa5a4a19b78_-black-and-white-online-images-white_2000-1333.png" alt="Foto"/>
+								<img src="https://drive.google.com/open?id=0B7fXa2B0E_5kcTY1bVpaZ09tRWthMUVaYWVxSlhTS2dHcUJ3" alt="Foto"/>
 						</div>
 						<div class="panel-body">
+							{{item.category}}
+							<br>
 							{{item.description}}
 						</div>
 					</div>
@@ -44,11 +46,12 @@
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
-								<img src="https://img.clipartfox.com/04da3594400d1f6a1cde4aa5a4a19b78_-black-and-white-online-images-white_2000-1333.png" alt="Foto"/>
+								<img src="https://drive.google.com/open?id=0B7fXa2B0E_5kcTY1bVpaZ09tRWthMUVaYWVxSlhTS2dHcUJ3" alt="Foto"/>
 						</div>
 						<div class="panel-body">
-							{{item.description}}
 							{{item.category}}
+							<br>
+							{{item.description}}
 						</div>
 					</div>
 	    </div>
@@ -90,6 +93,8 @@
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
+									<label>Foto (JPEG, JPG, PNG)</label>
+									<input type="file" name="file" value="Upload">
 									<div class="pull-right">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
 										<button type="submit" class="btn btn-primary">Cadastrar</button>
