@@ -8,7 +8,7 @@ import sqlite3
 
 from flask import Flask
 from flask import render_template
-from flask import Flask, request, redirect, jsonify, abort, g, url_for
+from flask import request, redirect, jsonify, abort, g, url_for, send_file
 from datetime import datetime,  date, timedelta
 import json
 
@@ -87,6 +87,10 @@ def root():
     cur = db.execute('select name, text, status from entries order by id desc')
     entries = cur.fetchall()
     return show_entries(entries)
+
+@app.route('/image')
+def get_image():
+    return send_file("./uploads/b.jpg", mimetype='image/jpg')
 
 @app.route('/item', methods=['POST'])
 def add_item():
