@@ -73,7 +73,7 @@
 			        <h4>Novo Item</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form name="addItemForm" action="/item" method=post>
+			        <form name="addItemForm" action="/item" method=post enctype=multipart/form-data>
 			          <div class="form-group">
 			            <label class="radio-inline">
 			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found" checked> Achado
@@ -94,7 +94,7 @@
 										</select>
 									<br>
 									<label>Foto (JPEG, JPG, PNG)</label>
-									<input type="file" name="file" value="Upload">
+									<input type=file name=file value="Upload">
 									<div class="pull-right">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
 										<button type="submit" class="btn btn-primary">Cadastrar</button>

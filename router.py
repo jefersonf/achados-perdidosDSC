@@ -8,7 +8,7 @@ import sqlite3
 
 from flask import Flask
 from flask import render_template
-from flask import Flask, request, redirect, jsonify, abort, g
+from flask import Flask, request, redirect, jsonify, abort, g, url_for
 from datetime import datetime,  date, timedelta
 import json
 
@@ -16,6 +16,8 @@ import json
 
 template_dir = os.path.abspath('static')
 app = Flask(__name__, template_folder=template_dir)
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+UPLOAD_FOLDER = './uploads'
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
@@ -24,6 +26,7 @@ app.config.update(dict(
     PASSWORD='default'
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def init_db():
     db = get_db()
@@ -66,6 +69,12 @@ if __name__ == '__main__':
     app.config.update(DEBUG=True,TEMPLATES_AUTO_RELOAD=True)
     app.run(host='127.0.0.1', port=port_nr)
 
+#-------------------------AUX FUNCTIONS------------
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 #----------------------------------STATIC---------------------------------------
 controller = Controller()
 
@@ -85,6 +94,16 @@ def add_item():
     print(request.form)
     db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
     db.commit()
+    print("aquii")
+    print(request.files)
+    if 'file' not in request.files:
+        print("nao achou")
+    else:
+        filee = request.files['file']
+        if filee and allowed_file(filee.filename):
+            filename = "b." + filee.filename.rsplit('.', 1)[1].lower()
+            print(filename)
+            filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return root()
 
 @app.route('/item', methods=['GET'])
