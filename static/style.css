@@ -21,6 +21,11 @@ html, body {
 	min-width: 180px;
 }
 
+.upload-warning {
+	padding-bottom: 10px;
+	font-style: italic;
+	color: red;	
+}
 
 #side-menu{
 	padding: 0px;

@@ -29,7 +29,7 @@
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
-						<div class="item-photo" style="align-center">.
+						<div class="item-photo" style="align-center">
 								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
 						<div class="panel-body">
@@ -76,10 +76,10 @@
 			        <form name="addItemForm" action="/item" method=post enctype=multipart/form-data>
 			          <div class="form-group">
 			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="found" checked> Achado
+			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio1" value="found" checked> Achado
 			            </label>
 			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="lost"> Perdido
+			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost"> Perdido
 			            </label>
 			            <br><br>
 			            <input type="text" class="form-control" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
@@ -93,8 +93,13 @@
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
-									<label>Foto (JPEG, JPG, PNG)</label>
-									<input type=file name=file value="Upload">
+									<label>Foto (JPEG, JPG, PNG) </label>
+								    <div ng-show="addItemForm.$submitted || addItemForm.file.$touched">
+  										<div class="upload-warning">
+  											Adicione uma foto do objeto {{ foundLostObj == 'found' ? 'achado': 'perdido' }} 
+  										</div>
+									</div>
+									<input type="file" name="file" ng-model="filePathName" required=''>
 									<div class="pull-right">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
 										<button type="submit" class="btn btn-primary">Cadastrar</button>
