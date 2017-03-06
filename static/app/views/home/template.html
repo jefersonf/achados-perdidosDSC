@@ -29,8 +29,8 @@
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
-						<div class="item-photo" style="align-center">
-								<img src="https://drive.google.com/open?id=0B7fXa2B0E_5kcTY1bVpaZ09tRWthMUVaYWVxSlhTS2dHcUJ3" alt="Foto"/>
+						<div class="item-photo" style="align-center">.
+								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
 						<div class="panel-body">
 							{{item.category}}
@@ -46,7 +46,7 @@
 	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
-								<img src="image" alt="Foto"/>
+								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
 						<div class="panel-body">
 							{{item.category}}

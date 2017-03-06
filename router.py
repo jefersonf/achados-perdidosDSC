@@ -84,20 +84,23 @@ def show_entries(entries):
 @app.route('/')
 def root():
     db = get_db()
-    cur = db.execute('select name, text, status from entries order by id desc')
+    cur = db.execute('select name, text, status, id from entries order by id desc')
     entries = cur.fetchall()
     return show_entries(entries)
 
-@app.route('/image')
-def get_image():
-    return send_file("./uploads/b.jpg", mimetype='image/jpg')
+@app.route('/image/<itemId>')
+def get_image(itemId):
+    print(itemId)
+    path = "./uploads/" + str(itemId) + ".jpg"
+    return send_file(path, mimetype='image/jpg')
 
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
     print(request.form)
-    db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
+    cur = db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
     db.commit()
+    itemId = cur.lastrowid
     print("aquii")
     print(request.files)
     if 'file' not in request.files:
@@ -105,7 +108,7 @@ def add_item():
     else:
         filee = request.files['file']
         if filee and allowed_file(filee.filename):
-            filename = "b." + filee.filename.rsplit('.', 1)[1].lower()
+            filename = str(itemId) + "." + filee.filename.rsplit('.', 1)[1].lower()
             print(filename)
             filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return root()
@@ -113,12 +116,12 @@ def add_item():
 @app.route('/item', methods=['GET'])
 def get_all():
     db = get_db()
-    cur = db.execute('select name, text, status, category from entries order by id desc')
+    cur = db.execute('select name, text, status, category, id from entries order by id desc')
     entries = cur.fetchall()
     dic = {}
     dic['item'] = []
     for entry in entries:
-        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3], 'id':entry[4]}
         dic['item'].append(aux)
     return json.dumps(dic)
 
