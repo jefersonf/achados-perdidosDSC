@@ -1,5 +1,6 @@
 import os
 import datetime
+import uuid
 
 from core.controller import Controller
 from core import database
@@ -114,10 +115,37 @@ def get_image(itemId):
     path = "./uploads/" + str(itemId) + ".jpg"
     return send_file(path, mimetype='image/jpg')
 
+def generate_token():
+    db = get_db()
+    cur = db.execute('select token, status from tokens')
+    entries = cur.fetchall()
+
+    token = str(uuid.uuid4().hex)
+
+    while True:
+        is_repeated = False
+
+        for entry in entries:
+            if (token in entry):
+                is_repeated = True
+
+        if not is_repeated:
+            break
+        else:
+            token = str(uuid.uuid4().hex)
+
+    return token
+
+# STILL NEEDS TO ADD TOKEN AS A USER FK
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
     print(request.form)
+
+    token = generate_token()
+    token_insertion_query = 'insert into tokens (token, status) values (?, ?)'
+    cur0 = db.execute(token_insertion_query, (token, 'not_used'))
+
     cur = db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
     db.commit()
     itemId = cur.lastrowid
@@ -132,6 +160,17 @@ def add_item():
             print(filename)
             filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return root()
+
+# Only for testing purposes
+@app.route('/token', methods=['GET'])
+def get_tokens():
+    db = get_db()
+    cur = db.execute('select token, status from tokens')
+    entries = cur.fetchall()
+    dic = {}
+    print(entries)
+
+    return json.dumps(dic)
 
 @app.route('/item', methods=['GET'])
 def get_all():
