@@ -10,6 +10,8 @@ from flask import Flask
 from flask import render_template
 from flask import request, redirect, jsonify, abort, g, url_for, send_file
 from datetime import datetime,  date, timedelta
+from flask import Flask
+from flask_mail import Mail, Message
 import json
 
 #-------------------- CONFIG --------------------
@@ -33,6 +35,18 @@ def init_db():
     with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
     db.commit()
+
+#---------------------- MAIL------------------
+
+mail=Mail(app)
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'mimacher.dsc@gmail.com'
+app.config['MAIL_PASSWORD'] = 'projetoles'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 #---------------------- DB --------------------
 
@@ -77,6 +91,12 @@ def allowed_file(filename):
 
 #----------------------------------STATIC---------------------------------------
 controller = Controller()
+
+def send_email():
+    msg = Message('Hello', sender = 'mimacher.dsc@gmail.com', recipients = ['ldmatos8@gmail.com'])
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    return "Sent"
 
 def show_entries(entries):
     return render_template('index.html', entries=entries)
