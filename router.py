@@ -104,10 +104,11 @@ def send_email(recipient, token):
 
 @app.route('/contact', methods=['POST'])
 def sendmail():
-    msg = Message(request.name,
-                  sender = 'mimacher.dsc@gmail.com', recipients=[str(recipient)])
-    msg.body = request.text + "\n \n Você pode entrar em contato com %s através do e-mail: %s" % (request.name,
-                                                                                                  request.email)
+    print(request.form)
+    msg = Message("OIE",
+                  sender = 'mimacher.dsc@gmail.com', recipients="igor.ataide@ccc.ufcg.edu.br")
+    msg.body = request.form['text'] + "\n \n Você pode entrar em contato com %s através do e-mail: %s" % ("Igor",
+                                                                                                  "Mim Achar.com")
     mail.send(msg)
     return "Sent"
 
@@ -126,6 +127,14 @@ def get_image(itemId):
     print(itemId)
     path = "./uploads/" + str(itemId) + ".jpg"
     return send_file(path, mimetype='image/jpg')
+
+@app.route('/icone/<itemId>')
+def get_icon(itemId):
+    print(itemId)
+    path = "./uploads/" + str(itemId) + ".png"
+    print path
+
+    return send_file(path, mimetype='image/png')
 
 def generate_token():
     db = get_db()
