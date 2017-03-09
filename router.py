@@ -1,7 +1,6 @@
 #coding: utf-8
 
 import os
-import datetime
 import uuid
 
 from core.controller import Controller
@@ -11,9 +10,7 @@ import sqlite3
 
 from flask import Flask
 from flask import render_template
-from flask import request, redirect, jsonify, abort, g, url_for, send_file
-from datetime import datetime,  date, timedelta
-from flask import Flask
+from flask import request, redirect, g, send_file
 from flask_mail import Mail, Message
 import json
 
@@ -34,6 +31,7 @@ app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def init_db():
+    """Initializes de database. Used when there is a initdb call"""
     db = get_db()
     with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
@@ -89,6 +87,7 @@ if __name__ == '__main__':
 #-------------------------AUX FUNCTIONS------------
 
 def allowed_file(filename):
+    """"Check if the file extension is in the allowed extensions"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -96,7 +95,7 @@ def allowed_file(filename):
 controller = Controller()
 
 def send_email(recipient, token):
-    print recipient
+    print(recipient)
     msg = Message('Código de acesso para o achados e perdidos!', sender = 'mimacher.dsc@gmail.com', recipients=[str(recipient)])
     msg.body = "Olá, obrigado por fazer parte da comunidade do achados e perdidos!\nAqui está seu código de acesso para o objeto registrado:\n\n" + token
     mail.send(msg)
@@ -113,10 +112,12 @@ def sendmail():
     return "Sent"
 
 def show_entries(entries):
+    """Return the template with the desired entries"""
     return render_template('index.html', entries=entries)
 
 @app.route('/')
 def root():
+    """Return the main page."""
     db = get_db()
     cur = db.execute('select name, text, status, id from entries order by id desc')
     entries = cur.fetchall()
@@ -124,19 +125,21 @@ def root():
 
 @app.route('/image/<itemId>')
 def get_image(itemId):
+    """Return an image saved locally according to the itemId"""
     print(itemId)
     path = "./uploads/" + str(itemId) + ".jpg"
     return send_file(path, mimetype='image/jpg')
 
 @app.route('/icone/<itemId>')
 def get_icon(itemId):
+    """Return an icon saved locally according to the itemId"""
     print(itemId)
     path = "./uploads/" + str(itemId) + ".png"
-    print path
-
+    print(path)
     return send_file(path, mimetype='image/png')
 
 def generate_token():
+    """Generate the user toker."""
     db = get_db()
     cur = db.execute('select token, status from tokens')
     entries = cur.fetchall()
@@ -147,7 +150,7 @@ def generate_token():
         is_repeated = False
 
         for entry in entries:
-            if (token in entry):
+            if token in entry:
                 is_repeated = True
 
         if not is_repeated:
@@ -159,6 +162,7 @@ def generate_token():
 
 @app.route('/item', methods=['POST'])
 def add_item():
+    """Add an found or lost item"""
     db = get_db()
     print(request.form)
 
@@ -190,6 +194,7 @@ def add_item():
 # Only for testing purposes
 @app.route('/token', methods=['GET'])
 def get_tokens():
+    """Get the tokens from the database."""
     db = get_db()
     cur = db.execute('select token, status from tokens')
     entries = cur.fetchall()
@@ -200,6 +205,7 @@ def get_tokens():
 
 @app.route('/item', methods=['GET'])
 def get_all():
+    """Return all the entries in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category, id, user_email from entries order by id desc')
     entries = cur.fetchall()
@@ -213,6 +219,7 @@ def get_all():
 
 @app.route('/achados', methods=['GET'])
 def get_achados():
+    """Return all the found entries in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where status = "option1" order by id desc')
     entries = cur.fetchall()
@@ -225,6 +232,7 @@ def get_achados():
 
 @app.route('/perdidos', methods=['GET'])
 def get_perdidos():
+    """Return all the lost entries in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where status = "option2" order by id desc')
     entries = cur.fetchall()
@@ -237,6 +245,7 @@ def get_perdidos():
 
 @app.route('/category/<category>', methods=['GET'])
 def get_by_category(category):
+    """Return all the entries of a category in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where category =' + '"' + category + '"' + 'order by id desc')
     entries = cur.fetchall()
@@ -254,4 +263,4 @@ def render_view(url=None):
 
 @app.route('/<path:url>')
 def serve_static(url):
-	return app.send_static_file(url)
+    return app.send_static_file(url)
