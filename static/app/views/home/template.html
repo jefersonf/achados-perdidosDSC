@@ -128,12 +128,17 @@
 			      <div class="modal-body">
 			        <form name="addItemForm" action="/item" method=post enctype=multipart/form-data>
 			          <div class="form-group">
-			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio1" value="found" checked> Achado
-			            </label>
-			            <label class="radio-inline">
-			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost"> Perdido
-			            </label>
+
+                        <label for="category" class="control-label input-group">Achado ou perdido?</label>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio1" value="found">Achado
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost">Perdido
+                            </label>
+
+                          </div>
 			            <br><br>
 			            <input type="text" class="form-control" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
 			            <br>
