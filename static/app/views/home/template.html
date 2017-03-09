@@ -49,23 +49,11 @@
                                         <h4>Contacte o anunciante</h4>
                                       </div>
                                       <div class="modal-body">
-                                        <form name="emailOwner" action="/contact" method=post enctype=multipart/form-data>
-                                          <div class="form-group">
-                                            <br>
-                                            <input type="text" class="form-control" placeholder="Nome" maxlength="50" name="name" minlenght="1" required>
-                                            <br>
-                                            <textarea class="form-control" rows="3" placeholder="Mensagem" name="text" maxlength="500"></textarea>
-                                                        <br>
-                                                        <br>
-                                                        <input class="form-control"type="email" name="email" placeholder="Seu email">
-                                                        <br>
-                                                        <div class="pull-right">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
-                                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                                        </div>
-                                                        <br>
-                                          </div>
-                                        </form>
+                                        Você pode entrar em contato com o anunciante para descobrir se o objeto é seu através do e-mail:
+                                          {{ item.user_email }}
+                                              <br>
+                                            <button style="margin-left: 90%" type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
+
                                       </div>
                                     </div>
                                   </div>
@@ -102,27 +90,16 @@
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4>Contacte o anunciante {{item.user_email}}</h4>
+                                    <h4>Contacte o anunciante</h4>
                                   </div>
                                   <div class="modal-body">
-                                    <form name="emailOwner" action="/contact" method=post enctype=multipart/form-data>
-                                      <div class="form-group">
-                                        <br>
-                                        <input type="text" class="form-control" placeholder="Nome" maxlength="50" name="name" minlenght="1" required>
-                                        <br>
-                                        <textarea class="form-control" rows="3" placeholder="Mensagem" name="text" maxlength="500"></textarea>
-                                        <br>
-                                        <br>
-                                        <input class="form-control"type="email" name="email" placeholder="Seu email">
-                                        <br>
-                                        <div class="pull-right">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                        </div>
-                                        <br>
+                                        Você pode entrar em contato com o anunciante para descobrir se o objeto que você
+                                      encontrou é dele através do e-mail:
+                                          {{ item.user_email }}
+                                              <br>
+                                            <button style="margin-left: 90%" type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
+
                                       </div>
-                                    </form>
-                                  </div>
                                 </div>
                               </div>
                             </div>
