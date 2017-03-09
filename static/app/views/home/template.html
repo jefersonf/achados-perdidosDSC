@@ -91,40 +91,41 @@
 							<br>
 							{{item.description}}
 
+
                             <button class="btn btn-primary" style="align-content: flex-end" data-toggle="modal" data-target="#new-item1">
 			                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 			                </button>
 
-                                <!--Modal de contato do Item-->
-                                <div class="modal fade" id="new-item1" tabindex="-1" role="dialog" >
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4>Contacte o anunciante</h4>
+                            <!--Modal de contato do Item-->
+                            <div class="modal fade" id="new-item1" tabindex="-1" role="dialog" >
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4>Contacte o anunciante {{item.user_email}}</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form name="emailOwner" action="/contact" method=post enctype=multipart/form-data>
+                                      <div class="form-group">
+                                        <br>
+                                        <input type="text" class="form-control" placeholder="Nome" maxlength="50" name="name" minlenght="1" required>
+                                        <br>
+                                        <textarea class="form-control" rows="3" placeholder="Mensagem" name="text" maxlength="500"></textarea>
+                                        <br>
+                                        <br>
+                                        <input class="form-control"type="email" name="email" placeholder="Seu email">
+                                        <br>
+                                        <div class="pull-right">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
+                                            <button type="submit" class="btn btn-primary">Enviar</button>
+                                        </div>
+                                        <br>
                                       </div>
-                                      <div class="modal-body">
-                                        <form name="emailOwner" action="/sendmail" method=post enctype=multipart/form-data>
-                                          <div class="form-group">
-                                            <br>
-                                            <input type="text" class="form-control" placeholder="Nome" maxlength="50" name="name" minlenght="1" required>
-                                            <br>
-                                            <textarea class="form-control" rows="3" placeholder="Mensagem" name="text" maxlength="500"></textarea>
-                                                        <br>
-                                                        <br>
-                                                        <input class="form-control"type="email" name="email" placeholder="Seu email">
-                                                        <br>
-                                                        <div class="pull-right">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
-                                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                                        </div>
-                                                        <br>
-                                          </div>
-                                        </form>
-                                      </div>
-                                    </div>
+                                    </form>
                                   </div>
                                 </div>
+                              </div>
+                            </div>
 
 
 						</div>
