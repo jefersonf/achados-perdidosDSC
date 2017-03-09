@@ -102,6 +102,15 @@ def send_email(recipient, token):
     mail.send(msg)
     return "Sent"
 
+@app.route('/contact', methods=['POST'])
+def sendmail(recipient, nome, body, email_owner):
+    print recipient
+    msg = Message(nome,
+                  sender = 'mimacher.dsc@gmail.com', recipients=[str(recipient)])
+    msg.body = body + "\n \n Você pode entrar em contato com %s através do e-mail: %s" % (nome, email_owner)
+    mail.send(msg)
+    return "Sent"
+
 def show_entries(entries):
     return render_template('index.html', entries=entries)
 
@@ -149,7 +158,9 @@ def add_item():
     cur0 = db.execute(token_insertion_query, (token, 'not_used'))
     token_id = cur0.lastrowid
 
-    cur = db.execute('insert into entries (name, text, status, category, user_email ,token_id) values (?, ?, ?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category'], request.form['email'], token_id])
+    cur = db.execute('insert into entries (name, text, status, category, user_email ,token_id) values (?, ?, ?, ?, ?, ?)',
+                     [request.form['name'], request.form['text'], request.form['inlineRadioOptions'],
+                      request.form['category'], request.form['email'], token_id])
 
     send_email(request.form['email'], token)
 
