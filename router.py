@@ -1,3 +1,5 @@
+#coding: utf-8
+
 import os
 import datetime
 import uuid
@@ -93,9 +95,10 @@ def allowed_file(filename):
 #----------------------------------STATIC---------------------------------------
 controller = Controller()
 
-def send_email():
-    msg = Message('Hello', sender = 'mimacher.dsc@gmail.com', recipients = ['ldmatos8@gmail.com'])
-    msg.body = "Hello Flask message sent from Flask-Mail"
+def send_email(recipient, token):
+    print recipient
+    msg = Message('Código de acesso para o achados e perdidos!', sender = 'mimacher.dsc@gmail.com', recipients=[str(recipient)])
+    msg.body = "Olá, obrigado por fazer parte da comunidade do achados e perdidos!\nAqui está seu código de acesso para o objeto registrado:\n\n" + token
     mail.send(msg)
     return "Sent"
 
@@ -136,7 +139,6 @@ def generate_token():
 
     return token
 
-# STILL NEEDS TO ADD TOKEN AS A USER FK
 @app.route('/item', methods=['POST'])
 def add_item():
     db = get_db()
@@ -145,8 +147,12 @@ def add_item():
     token = generate_token()
     token_insertion_query = 'insert into tokens (token, status) values (?, ?)'
     cur0 = db.execute(token_insertion_query, (token, 'not_used'))
+    token_id = cur0.lastrowid
 
-    cur = db.execute('insert into entries (name, text, status, category) values (?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category']])
+    cur = db.execute('insert into entries (name, text, status, category, user_email ,token_id) values (?, ?, ?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category'], request.form['email'], token_id])
+
+    send_email(request.form['email'], token)
+
     db.commit()
     itemId = cur.lastrowid
     print("aquii")

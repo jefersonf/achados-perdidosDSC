@@ -93,10 +93,12 @@
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
+									<input class="form-control"type="email" name="email" placeholder="Seu email">
+									<br>
 									<label>Foto (JPEG, JPG, PNG) </label>
 								    <div ng-show="addItemForm.$submitted || addItemForm.file.$touched">
   										<div class="upload-warning">
-  											Adicione uma foto do objeto {{ foundLostObj == 'found' ? 'achado': 'perdido' }} 
+  											Adicione uma foto do objeto {{ foundLostObj == 'found' ? 'achado': 'perdido' }}
   										</div>
 									</div>
 									<input type="file" name="file" ng-model="filePathName" required=''>
