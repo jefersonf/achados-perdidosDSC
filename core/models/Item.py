@@ -6,3 +6,4 @@ class Item():
         self.title = title
         self.description = description
         self.date = date
+        self.status = status

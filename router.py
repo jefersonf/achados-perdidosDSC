@@ -1,6 +1,7 @@
 #coding: utf-8
 
 import os
+import datetime
 import uuid
 
 from core.controller import Controller
@@ -10,9 +11,15 @@ import sqlite3
 
 from flask import Flask
 from flask import render_template
-from flask import request, redirect, g, send_file
+from flask import request, redirect, jsonify, abort, g, url_for, send_file
+from datetime import datetime,  date, timedelta
+from flask import Flask, flash
 from flask_mail import Mail, Message
 import json
+
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 #-------------------- CONFIG --------------------
 
@@ -31,7 +38,6 @@ app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def init_db():
-    """Initializes de database. Used when there is a initdb call"""
     db = get_db()
     with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
@@ -87,7 +93,6 @@ if __name__ == '__main__':
 #-------------------------AUX FUNCTIONS------------
 
 def allowed_file(filename):
-    """"Check if the file extension is in the allowed extensions"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -95,29 +100,17 @@ def allowed_file(filename):
 controller = Controller()
 
 def send_email(recipient, token):
-    print(recipient)
+    print recipient
     msg = Message('Código de acesso para o achados e perdidos!', sender = 'mimacher.dsc@gmail.com', recipients=[str(recipient)])
     msg.body = "Olá, obrigado por fazer parte da comunidade do achados e perdidos!\nAqui está seu código de acesso para o objeto registrado:\n\n" + token
     mail.send(msg)
     return "Sent"
 
-@app.route('/contact', methods=['POST'])
-def sendmail():
-    print(request.form)
-    msg = Message("OIE",
-                  sender = 'mimacher.dsc@gmail.com', recipients="igor.ataide@ccc.ufcg.edu.br")
-    msg.body = request.form['text'] + "\n \n Você pode entrar em contato com %s através do e-mail: %s" % ("Igor",
-                                                                                                  "Mim Achar.com")
-    mail.send(msg)
-    return "Sent"
-
 def show_entries(entries):
-    """Return the template with the desired entries"""
     return render_template('index.html', entries=entries)
 
 @app.route('/')
 def root():
-    """Return the main page."""
     db = get_db()
     cur = db.execute('select name, text, status, id from entries order by id desc')
     entries = cur.fetchall()
@@ -125,21 +118,11 @@ def root():
 
 @app.route('/image/<itemId>')
 def get_image(itemId):
-    """Return an image saved locally according to the itemId"""
     print(itemId)
     path = "./uploads/" + str(itemId) + ".jpg"
     return send_file(path, mimetype='image/jpg')
 
-@app.route('/icone/<itemId>')
-def get_icon(itemId):
-    """Return an icon saved locally according to the itemId"""
-    print(itemId)
-    path = "./uploads/" + str(itemId) + ".png"
-    print(path)
-    return send_file(path, mimetype='image/png')
-
 def generate_token():
-    """Generate the user toker."""
     db = get_db()
     cur = db.execute('select token, status from tokens')
     entries = cur.fetchall()
@@ -150,7 +133,7 @@ def generate_token():
         is_repeated = False
 
         for entry in entries:
-            if token in entry:
+            if (token in entry):
                 is_repeated = True
 
         if not is_repeated:
@@ -162,7 +145,6 @@ def generate_token():
 
 @app.route('/item', methods=['POST'])
 def add_item():
-    """Add an found or lost item"""
     db = get_db()
     print(request.form)
 
@@ -171,9 +153,7 @@ def add_item():
     cur0 = db.execute(token_insertion_query, (token, 'not_used'))
     token_id = cur0.lastrowid
 
-    cur = db.execute('insert into entries (name, text, status, category, user_email ,token_id) values (?, ?, ?, ?, ?, ?)',
-                     [request.form['name'], request.form['text'], request.form['inlineRadioOptions'],
-                      request.form['category'], request.form['email'], token_id])
+    cur = db.execute('insert into entries (name, text, status, category, user_email ,token_id) values (?, ?, ?, ?, ?, ?)', [request.form['name'], request.form['text'], request.form['inlineRadioOptions'], request.form['category'], request.form['email'], token_id])
 
     send_email(request.form['email'], token)
 
@@ -191,35 +171,61 @@ def add_item():
             filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return root()
 
-# Only for testing purposes
-@app.route('/token', methods=['GET'])
-def get_tokens():
-    """Get the tokens from the database."""
+def get_token(id):
     db = get_db()
-    cur = db.execute('select token, status from tokens')
+    cur = db.execute('select token, status from tokens where id =' + '"' + str(id) + '"')
     entries = cur.fetchall()
-    dic = {}
-    print(entries)
 
-    return json.dumps(dic)
+    if(len(entries) > 0):
+        return entries[0]
+    else:
+        #FLAG TO INDICATE ERROR
+        return -1
 
 @app.route('/item', methods=['GET'])
 def get_all():
-    """Return all the entries in the database."""
     db = get_db()
-    cur = db.execute('select name, text, status, category, id, user_email from entries order by id desc')
+    cur = db.execute('select name, text, status, category, id from entries order by id desc')
     entries = cur.fetchall()
     dic = {}
     dic['item'] = []
     for entry in entries:
-        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2],
-               'category':entry[3], 'id':entry[4], 'user_email': entry[5]}
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3], 'id':entry[4]}
         dic['item'].append(aux)
     return json.dumps(dic)
 
+def validate_token(id, user_token):
+    db = get_db()
+    cur = db.execute('select name, text, status, category, token_id, id from entries where id =' + '"' + id + '"')
+    entries = cur.fetchall()
+
+    token_id = entries[0][4]
+    token = get_token(token_id)
+    if(token == -1):
+        return False
+
+    return token[0] == user_token
+
+def return_item(id):
+    db = get_db()
+    db.execute('update entries set status=? where id = ?', ("returned", id))
+    db.commit()
+
+@app.route('/update-item', methods=['POST'])
+def update_item():
+    token = request.form['access-code']
+    item_id = request.form['item-id']
+
+    if(validate_token(item_id, token)):
+        return_item(item_id)
+        return redirect("/")
+
+    else:
+        flash("Codigo de acesso incorreto")
+        return redirect("/")
+
 @app.route('/achados', methods=['GET'])
 def get_achados():
-    """Return all the found entries in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where status = "option1" order by id desc')
     entries = cur.fetchall()
@@ -232,7 +238,6 @@ def get_achados():
 
 @app.route('/perdidos', methods=['GET'])
 def get_perdidos():
-    """Return all the lost entries in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where status = "option2" order by id desc')
     entries = cur.fetchall()
@@ -245,7 +250,6 @@ def get_perdidos():
 
 @app.route('/category/<category>', methods=['GET'])
 def get_by_category(category):
-    """Return all the entries of a category in the database."""
     db = get_db()
     cur = db.execute('select name, text, status, category from entries where category =' + '"' + category + '"' + 'order by id desc')
     entries = cur.fetchall()
@@ -263,4 +267,4 @@ def render_view(url=None):
 
 @app.route('/<path:url>')
 def serve_static(url):
-    return app.send_static_file(url)
+	return app.send_static_file(url)

@@ -40,7 +40,19 @@
   <div class="col-md-3 col-md-offset-3">
   </div>
 
-  <div ui-view></div>
+  <div ui-view>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+          var messages = {{ messages | safe }};
+          for (var i=0; i<messages.length; i++) {
+            alert(messages[i]);
+          }
+        </script>
+    {% endif %}
+  {% endwith %}
 
 
 </body>

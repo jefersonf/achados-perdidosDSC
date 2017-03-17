@@ -27,49 +27,87 @@
 		<!-- column 1 -->
 		<div class="column-cards">
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
-	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
-	        <div class="portlet-content">
+	        <div class="portlet-header">
+						<h4>
+							<strong>
+							{{item.title}}
+							<a href="#" style="color: green" title="Mudar status do item para devolvido">
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true" data-toggle="modal" data-target="#config-item{{item.id}}"></span>
+							</a>
+							</strong>
+
+							<!-- CONFIG ITEM MODAL -->
+							<div class="modal fade" id="config-item{{item.id}}" tabindex="-1" role="dialog">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Configurar item</h4>
+										</div>
+										<div class="modal-body">
+											<form name="configItemForm" action="/update-item" method=post>
+											 <div class="form-group">
+												 <input type="hidden" value="{{item.id}}" name="item-id">
+												 <label>Informe seu código de acesso:</label>
+												 <input class="form-control" name="access-code" type="text" placeholder="Código de acesso">
+											 </div>
+
+											 <button type="submit" class="btn btn-primary">Confirmar</button>
+										 </form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h4>
+					</div>
+					<div class="portlet-content">
 						<div class="item-photo" style="align-center">
 								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
 						<div class="panel-body">
 							{{item.category}}
 							<br>
-							<p style="font-size: small">{{item.description}}</p>
-                            <button class="btn btn-primary" style="margin-left: 87%" data-toggle="modal" data-target="#new-item1">
-			                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-			                </button>
-
-                                <!--Modal de contato do Item-->
-                                <div class="modal fade" id="new-item1" tabindex="-1" role="dialog" >
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4>Contacte o anunciante</h4>
-                                      </div>
-                                      <div class="modal-body">
-                                        Você pode entrar em contato com o anunciante para descobrir se o objeto é seu através do e-mail:
-                                          {{ item.user_email }}
-                                              <br>
-                                            <button style="margin-left: 90%" type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
-
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
+							{{item.description}}
 						</div>
-
-
-
-            </div>
+					</div>
 	    </div>
 		</div>
 		<!-- column 2 -->
 		<div class="column-cards">
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
-	        <div class="portlet-header"><h4><strong>{{item.title}}</strong></h4></div>
+	        <div class="portlet-header">
+						<h4>
+							<strong>
+							{{item.title}}
+							<a href="#" style="color: green" title="Mudar status do item para devolvido" data-toggle="modal" data-target="#config-item{{item.id}}">
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							</a>
+							</strong>
+
+							<!-- CONFIG ITEM MODAL -->
+							<div class="modal fade" id="config-item{{item.id}}" tabindex="-1" role="dialog">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Configurar item</h4>
+										</div>
+										<div class="modal-body">
+											<form name="configItemForm" action="/update-item" method=post>
+											 <div class="form-group">
+												 <input type="hidden" value="{{item.id}}" name="item-id">
+												 <label>Informe seu código de acesso:</label>
+												 <input class="form-control" name="access-code" type="text" placeholder="Código de acesso">
+											 </div>
+
+											 <button type="submit" class="btn btn-primary">Confirmar</button>
+										 </form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h4>
+					</div>
 	        <div class="portlet-content">
 						<div class="item-photo" style="align-center">
 								<img ng-src="image/{{item.id}}" alt="Foto"/>
@@ -77,34 +115,7 @@
 						<div class="panel-body">
 							{{item.category}}
 							<br>
-							<p style="font-size: small">{{item.description}}</p>
-
-
-                            <button class="btn btn-primary" style="margin-left: 87%" data-toggle="modal" data-target="#new-item1">
-			                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-			                </button>
-
-                            <!--Modal de contato do Item-->
-                            <div class="modal fade" id="new-item1" tabindex="-1" role="dialog" >
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4>Contacte o anunciante</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                        Você pode entrar em contato com o anunciante para descobrir se o objeto que você
-                                      encontrou é dele através do e-mail:
-                                          {{ item.user_email }}
-                                              <br>
-                                            <button style="margin-left: 90%" type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
-
-                                      </div>
-                                </div>
-                              </div>
-                            </div>
-
-
+							{{item.description}}
 						</div>
 					</div>
 	    </div>
@@ -128,17 +139,12 @@
 			      <div class="modal-body">
 			        <form name="addItemForm" action="/item" method=post enctype=multipart/form-data>
 			          <div class="form-group">
-
-                        <label for="category" class="control-label input-group">Achado ou perdido?</label>
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default active">
-                                <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio1" value="found">Achado
-                            </label>
-                            <label class="btn btn-default">
-                                <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost">Perdido
-                            </label>
-
-                          </div>
+			            <label class="radio-inline">
+			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio1" value="found" checked> Achado
+			            </label>
+			            <label class="radio-inline">
+			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost"> Perdido
+			            </label>
 			            <br><br>
 			            <input type="text" class="form-control" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
 			            <br>
@@ -151,7 +157,7 @@
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
-									<input class="form-control"type="email" name="email" placeholder="Seu email">
+									<input required class="form-control"type="email" name="email" placeholder="Seu email">
 									<br>
 									<label>Foto (JPEG, JPG, PNG) </label>
 								    <div ng-show="addItemForm.$submitted || addItemForm.file.$touched">
@@ -172,6 +178,5 @@
 			  </div>
 			</div>
 		</div>
-
 	</div>
 </div>
