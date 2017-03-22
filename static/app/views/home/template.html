@@ -2,7 +2,7 @@
 	<div class="">
 
 	<!-- Search  -->
-    <nav class="navbar navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
@@ -15,7 +15,7 @@
 		</div>
 	</nav>
 
-	<div class="" style="padding: 10px">
+	<div class="" style="padding: 5px">
 
 		<div class="upper_col_title">
 			<h2> Achados </h2>
@@ -23,7 +23,9 @@
 		<div class="upper_col_title">
 			<h2> Perdidos </h2>
 		</div>
-
+		<div class="upper_col_title">
+			<h2><span class="glyphicon glyphicon-plus" style="color:pink" ng-click="showResolved=!showResolved"></span> Resolvidos</h2>
+		</div>
 		<!-- column 1 -->
 		<div class="column-cards">
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
@@ -75,40 +77,63 @@
 		<!-- column 2 -->
 		<div class="column-cards">
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
-	        <div class="portlet-header">
-						<h4>
-							<strong>
-							{{item.title}}
-							<a href="#" style="color: green" title="Mudar status do item para devolvido" data-toggle="modal" data-target="#config-item{{item.id}}">
-								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
-							</a>
-							</strong>
+        <div class="portlet-header">
+					<h4>
+						<strong>
+						{{item.title}}
+						<a href="#" style="color: green" title="Mudar status do item para devolvido" data-toggle="modal" data-target="#config-item{{item.id}}">
+							<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+						</a>
+						</strong>
 
-							<!-- CONFIG ITEM MODAL -->
-							<div class="modal fade" id="config-item{{item.id}}" tabindex="-1" role="dialog">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Configurar item</h4>
-										</div>
-										<div class="modal-body">
-											<form name="configItemForm" action="/update-item" method=post>
-											 <div class="form-group">
-												 <input type="hidden" value="{{item.id}}" name="item-id">
-												 <label>Informe seu código de acesso:</label>
-												 <input class="form-control" name="access-code" type="text" placeholder="Código de acesso">
-											 </div>
+						<!-- CONFIG ITEM MODAL -->
+						<div class="modal fade" id="config-item{{item.id}}" tabindex="-1" role="dialog">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Configurar item</h4>
+									</div>
+									<div class="modal-body">
+										<form name="configItemForm" action="/update-item" method=post>
+										 <div class="form-group">
+											 <input type="hidden" value="{{item.id}}" name="item-id">
+											 <label>Informe seu código de acesso:</label>
+											 <input class="form-control" name="access-code" type="text" placeholder="Código de acesso">
+										 </div>
 
-											 <button type="submit" class="btn btn-primary">Confirmar</button>
-										 </form>
-										</div>
+										 <button type="submit" class="btn btn-primary">Confirmar</button>
+									 </form>
 									</div>
 								</div>
 							</div>
+						</div>
+					</h4>
+				</div>
+        <div class="portlet-content">
+					<div class="item-photo" style="align-center">
+							<img ng-src="image/{{item.id}}" alt="Foto"/>
+					</div>
+					<div class="panel-body">
+						{{item.category}}
+						<br>
+						{{item.description}}
+					</div>
+				</div>
+	    </div>
+		</div>
+
+		<!-- column 3 -->
+		<div class="column-cards" ng-show="showResolved" >
+			<div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'returned'}">
+					<div class="portlet-header">
+						<h4>
+							<strong>
+							{{item.title}}
+							</strong>
 						</h4>
 					</div>
-	        <div class="portlet-content">
+					<div class="portlet-content">
 						<div class="item-photo" style="align-center">
 								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
@@ -118,9 +143,8 @@
 							{{item.description}}
 						</div>
 					</div>
-	    </div>
+			</div>
 		</div>
-	</div>
 
 		<!--Botao de adicionar Item-->
 		<div class="", id="add-button">
