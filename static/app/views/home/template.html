@@ -129,7 +129,7 @@
 			</button>
 
 			<!--Modal de adicionar Item-->
-			<div class="modal fade" id="new-item" tabindex="-1" role="dialog" >
+			<div class="modal fade" id="new-item" id="modal1" tabindex="-1" role="dialog" >
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
@@ -157,17 +157,17 @@
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
-									<input required class="form-control"type="email" name="email" placeholder="Seu email">
+									<input required class="form-control" type="email" name="email" placeholder="Seu email">
 									<br>
 									<label>Foto (JPEG, JPG, PNG) </label>
-								    <div ng-show="addItemForm.$submitted || addItemForm.file.$touched">
+								    <div ng-show="addItemForm.$submitted && addItemForm.file.$touched">
   										<div class="upload-warning">
   											Adicione uma foto do objeto {{ foundLostObj == 'found' ? 'achado': 'perdido' }}
   										</div>
 									</div>
 									<input type="file" name="file" ng-model="filePathName" required=''>
 									<div class="pull-right">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Sair </button>
+										<button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
 										<button type="submit" class="btn btn-primary">Cadastrar</button>
 									</div>
 									<br>

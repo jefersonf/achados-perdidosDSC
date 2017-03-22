@@ -171,7 +171,7 @@ def add_item():
             filename = str(itemId) + "." + filee.filename.rsplit('.', 1)[1].lower()
             print(filename)
             filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return root()
+    return redirect("/")
 
 def get_token(id):
     db = get_db()
@@ -206,7 +206,7 @@ def validate_token(id, user_token):
     if(token == -1):
         return False
 
-    return token[0] == user_token
+    return token[0] == user_token.strip()
 
 def return_item(id):
     db = get_db()
