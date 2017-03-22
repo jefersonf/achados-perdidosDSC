@@ -24,7 +24,7 @@ html, body {
 .upload-warning {
 	padding-bottom: 10px;
 	font-style: italic;
-	color: red;	
+	color: red;
 }
 
 #side-menu{
@@ -100,9 +100,8 @@ html, body {
 }
 .upper_col_title {
 	color: #777777;
-	position: relative;
 	/* border: 1px solid violet; */
-	width: 300px;
+	width: 250px;
 	margin-left: 10px;
 	float: left;
 }
@@ -207,7 +206,7 @@ body, html{
 }
 
 .column-cards {
-	width: 300px;
+	width: 250px;
 	float: left;
 	padding-bottom: 50px;
 	background-color: #ddd;
