@@ -372,6 +372,10 @@ h1.panel-title {
 	vertical-align: center;
 }
 
+.glyphicon-plus:hover {
+	cursor: pointer;
+}
+
 .container {
     width: 100%;
     margin: 0 !important;

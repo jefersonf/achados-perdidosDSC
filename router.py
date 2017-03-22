@@ -187,12 +187,12 @@ def get_token(id):
 @app.route('/item', methods=['GET'])
 def get_all():
     db = get_db()
-    cur = db.execute('select name, text, status, category, id from entries order by id desc')
+    cur = db.execute('select name, text, status, category, user_email, id from entries order by id desc')
     entries = cur.fetchall()
     dic = {}
     dic['item'] = []
     for entry in entries:
-        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3], 'id':entry[4]}
+        aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3], 'user_email':entry[4], 'id':entry[5]}
         dic['item'].append(aux)
     return json.dumps(dic)
 

@@ -125,7 +125,7 @@
 
 		<!-- column 3 -->
 		<div class="column-cards" ng-show="showResolved" >
-			<div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'returned'}">
+			<div class="portlet" ng-repeat="item in items | orderBy:'id' | filter:searchText | filter:{status: 'returned'}">
 					<div class="portlet-header">
 						<h4>
 							<strong>
@@ -141,6 +141,10 @@
 							{{item.category}}
 							<br>
 							{{item.description}}
+							<br>
+							<span style="font-size: 10px" title="{{item.user_email}}"> Responsável: 
+								<label style="font-style: italic;">{{ item.user_email | split:'@':0 }}</label>
+							</span>
 						</div>
 					</div>
 			</div>
