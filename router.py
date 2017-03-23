@@ -93,15 +93,16 @@ if __name__ == '__main__':
     app.config.update(DEBUG=True, TEMPLATES_AUTO_RELOAD=True)
     app.run(host='127.0.0.1', port=PORT_NUMBER)
 
-#-------------------------AUX FUNCTIONS------------
+# -------------------------AUX FUNCTIONS------------
 
 def allowed_file(filename):
     """Checks if a filename if between the allowed files"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-#----------------------------------STATIC---------------------------------------
+# ----------------------------------STATIC---------------------------------------
 controller = Controller()
+
 
 def send_email(recipient, token):
     """Sends an email to a user with the token"""
@@ -113,9 +114,11 @@ def send_email(recipient, token):
     mail.send(msg)
     return "Sent"
 
+
 def show_entries(entries):
     """render the template with the given entries"""
     return render_template('index.html', entries=entries)
+
 
 @app.route('/')
 def root():
@@ -125,12 +128,14 @@ def root():
     entries = cur.fetchall()
     return show_entries(entries)
 
+
 @app.route('/image/<itemId>')
 def get_image(itemId):
     """Returns a image according to the itemid"""
     print itemId
     path = "./uploads/" + str(itemId) + ".jpg"
     return send_file(path, mimetype='image/jpg')
+
 
 def generate_token():
     """Generates a token randomly"""
@@ -153,6 +158,7 @@ def generate_token():
             token = str(uuid.uuid4().hex)
 
     return token
+
 
 @app.route('/item', methods=['POST'])
 def add_item():
@@ -186,6 +192,16 @@ def add_item():
             filee.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return redirect("/")
 
+
+@app.route('/icone/<itemId>')
+def get_icon(itemId):
+    print(itemId)
+    path = "./uploads/" + str(itemId) + ".png"
+    print path
+
+    return send_file(path, mimetype='image/png')
+
+
 def get_token(token_id):
     """Get token given id"""
     db = get_db()
@@ -197,6 +213,7 @@ def get_token(token_id):
     else:
         #FLAG TO INDICATE ERROR
         return -1
+
 
 @app.route('/item', methods=['GET'])
 def get_all():
@@ -213,6 +230,7 @@ def get_all():
         dic['item'].append(aux)
     return json.dumps(dic)
 
+
 def validate_token(id, user_token):
     """Check whether a token is valid or not"""
     db = get_db()
@@ -227,11 +245,13 @@ def validate_token(id, user_token):
 
     return token[0] == user_token.strip()
 
+
 def return_item(item_id):
     """Returns an item given the id"""
     db = get_db()
     db.execute('update entries set status=? where id = ?', ("returned", item_id))
     db.commit()
+
 
 @app.route('/update-item', methods=['POST'])
 def update_item():
@@ -247,6 +267,7 @@ def update_item():
         flash("Codigo de acesso incorreto")
         return redirect("/")
 
+
 @app.route('/achados', methods=['GET'])
 def get_achados():
     """Returns the found items"""
@@ -261,6 +282,7 @@ def get_achados():
         dic['item'].append(aux)
     return json.dumps(dic)
 
+
 @app.route('/perdidos', methods=['GET'])
 def get_perdidos():
     """Returns the lost items"""
@@ -274,6 +296,7 @@ def get_perdidos():
         aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
         dic['item'].append(aux)
     return json.dumps(dic)
+
 
 @app.route('/category/<category>', methods=['GET'])
 def get_by_category(category):
