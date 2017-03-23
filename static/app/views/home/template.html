@@ -15,18 +15,12 @@
 		</div>
 	</nav>
 
-	<div class="" style="padding: 5px">
-
-		<div class="upper_col_title">
-			<h2> Achados </h2>
-		</div>
-		<div class="upper_col_title">
-			<h2> Perdidos </h2>
-		</div>
-		<div class="upper_col_title">
-			<h2><span class="glyphicon glyphicon-plus" style="color:pink" ng-click="showResolved=!showResolved"></span> Resolvidos</h2>
-		</div>
-		<!-- column 1 -->
+        <div class="row" style="margin-left: 200px">
+            <div class="col-sm-4">
+                <div class="upper_col_title" style="align-content: center">
+            <h2> Achados </h2>
+                </div>
+                <!-- column 1 -->
 		<div class="column-cards">
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
 	        <div class="portlet-header">
@@ -74,8 +68,15 @@
 					</div>
 	    </div>
 		</div>
-		<!-- column 2 -->
+
+            </div>
+            <div class="col-sm-4">
+                		<!-- column 2 -->
+        <div class="upper_col_title" style="align-content: center">
+            <h2> Perdidos </h2>
+        </div>
 		<div class="column-cards">
+
 	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
         <div class="portlet-header">
 					<h4>
@@ -122,8 +123,12 @@
 				</div>
 	    </div>
 		</div>
-
-		<!-- column 3 -->
+            </div>
+            <div class="col-sm-4">
+                		<!-- column 3 -->
+        <div class="upper_col_title">
+			<h2><span class="glyphicon glyphicon-plus" style="color:pink" ng-click="showResolved=!showResolved"></span> Resolvidos</h2>
+		</div>
 		<div class="column-cards" ng-show="showResolved" >
 			<div class="portlet" ng-repeat="item in items | orderBy:'id' | filter:searchText | filter:{status: 'returned'}">
 					<div class="portlet-header">
@@ -142,16 +147,19 @@
 							<br>
 							{{item.description}}
 							<br>
-							<span style="font-size: 10px" title="{{item.user_email}}"> Responsável: 
+							<span style="font-size: 10px" title="{{item.user_email}}"> Responsável:
 								<label style="font-style: italic;">{{ item.user_email | split:'@':0 }}</label>
 							</span>
 						</div>
 					</div>
 			</div>
 		</div>
+            </div>
+
+        </div>
 
 		<!--Botao de adicionar Item-->
-		<div class="", id="add-button">
+		<div class="", id="add-button" style="margin-right:100px">
 			<button role="Tasddsa" class="btn btn-primary" id="btn-add" data-toggle="modal" data-target="#new-item">
 			  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 			</button>
