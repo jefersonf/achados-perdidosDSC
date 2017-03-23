@@ -288,3 +288,14 @@ def get_by_category(category):
         aux = {'title':entry[0], 'description': entry[1], 'status':entry[2], 'category':entry[3]}
         dic['item'].append(aux)
     return json.dumps(dic)
+
+
+@app.route('/site/')
+@app.route('/site/<path:url>')
+def render_view(url=None):
+    return serve_static('index.html')
+
+
+@app.route('/<path:url>')
+def serve_static(url):
+    return app.send_static_file(url)
