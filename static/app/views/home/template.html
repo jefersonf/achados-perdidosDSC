@@ -65,7 +65,11 @@
 						<div class="panel-body">
 							{{item.category}}
 							<br>
-							{{item.description}}
+							<small>{{item.description}}</small>
+							<br>
+                                                        <span style="font-size: 10px" title="{{item.user_email}}"> Contato:
+                                                               <label style="font-style: italic;">{{ item.user_email }}</label>
+                                                        </span>
 						</div>
 					</div>
 	    </div>
@@ -120,7 +124,10 @@
 					<div class="panel-body">
 						{{item.category}}
 						<br>
-						{{item.description}}
+						<small>{{item.description}}</small><br>
+                                                        <span style="font-size: 10px" title="{{item.user_email}}"> Contato:
+                                                                <label style="font-style: italic;">{{ item.user_email }}</label>
+                                                        </span>
 					</div>
 				</div>
 	    </div>
@@ -147,7 +154,7 @@
 						<div class="panel-body">
 							{{item.category}}
 							<br>
-							{{item.description}}
+							<small>{{item.description}}</small>
 							<br>
 							<span style="font-size: 10px" title="{{item.user_email}}"> Responsável:
 								<label style="font-style: italic;">{{ item.user_email | split:'@':0 }}</label>
