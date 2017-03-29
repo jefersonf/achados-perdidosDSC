@@ -81,7 +81,6 @@ html, body {
 	width: 100%;
 }
 .row {
-	float: right;
 	display: flex !important;
 	min-height: 50px !important;
 	padding-top: 50px;
@@ -113,7 +112,7 @@ html, body {
 }
 
 .content-inner, #content header {
-	margin: 30px 50px;
+	margin: 10px 50px;
 	padding: 20px;
 }
 
@@ -121,7 +120,7 @@ html, body {
 	float: right;
 	position: absolute;
 	left: 0px;
-	padding: 20px 35px;
+	padding: 10px 35px;
 	font-size: 16pt;
 	font-weight: 100;
 }
@@ -206,7 +205,7 @@ body, html{
 }
 
 .column-cards {
-	width: 250px;
+	width: 300px;
 	float: left;
 	padding-bottom: 50px;
 	background-color: #ddd;
@@ -289,7 +288,7 @@ hr {
  	margin-top: 30px;
  	margin: 0 auto;
  	max-width: 330px;
-    padding: 40px 40px;
+    padding: 10px 40px;
 
 }
 .main-login{
@@ -344,7 +343,7 @@ h1.panel-title {
 	padding-top: 75px;
 	margin: 0 auto;
 	height: 100%;
-	width: 790px;
+	width: 800px;
 }
 
 .display-table-row{
