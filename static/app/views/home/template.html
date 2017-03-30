@@ -1,15 +1,47 @@
+
+<script type="text/javascript">
+
+	var didScroll;
+	var lastScrollTop = 0;
+	var delta = 100;
+	var navbarHeight = $(".navbar-mimacher").outerHeight();
+
+	$(window).scroll(function(event){
+		if ($(window).width() > 800) didScroll = true;		
+	});
+
+	setInterval(function() {
+		if (didScroll) { hasScrolled(); didScroll = false; }
+	}, 250);
+
+	function hasScrolled() {
+	    var st = $(this).scrollTop();
+	    if(Math.abs(lastScrollTop - st) <= delta) return;
+	    if (st > lastScrollTop && st > navbarHeight){
+	        // Scroll Down
+	        $(".navbar-mimacher").removeClass("navbar-mimacher-down").addClass("navbar-mimacher-up");
+	    } else {
+	        // Scroll Up
+	        if(st + $(window).height() < $(document).height()) {
+	            $(".navbar-mimacher").removeClass("navbar-mimacher-up").addClass("navbar-mimacher-down");
+	        }
+	    }
+	    lastScrollTop = st;
+	}
+
+</script>
+
 <div ng-controller="homeController" class="container-fluid display-table">
-	<div class="">
 
 	<!-- Search  -->
   <nav class="navbar navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<div class="row" style="padding-top:10px">
+				<div class="row navbar-mimacher">
 					<form class="navbar-form" role="search" style="display:inline;">
-						<img style="width: 80px; height: 80px;display:inline;" ng-src="icone/mimacher" alt="Foto"/>
+						<img id="icon-mimacher" ng-src="icone/mimacher" alt="Foto"/>
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+							<input type="text" class="form-control" style="border-radius:50px" placeholder="Search" ng-model="searchText">
 						</div>
 					</form>
 			</div>
@@ -24,7 +56,7 @@
         </div>
                 <!-- column 1 -->
 		<div class="column-cards">
-	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
+	    <div class="portlet" id="achados" ng-repeat="item in items | filter:searchText | filter:{status: 'found'}">
 	        <div class="portlet-header">
 						<h4>
 							<strong>
@@ -59,7 +91,7 @@
 						</h4>
 					</div>
 					<div class="portlet-content">
-						<div class="item-photo" style="align-center">
+						<div class="item-photo">
 								<img ng-src="image/{{item.id}}" alt="Foto"/>
 						</div>
 						<div class="panel-body">
@@ -83,7 +115,7 @@
         </div>
 		<div class="column-cards">
 
-	    <div class="portlet" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
+	    <div class="portlet" id="perdidos" ng-repeat="item in items | filter:searchText | filter:{status: 'lost'}">
         <div class="portlet-header">
 					<h4>
 						<strong>
@@ -136,7 +168,7 @@
             <div class="col-sm-4">
                 		<!-- column 3 -->
         <div class="upper_col_title">
-			<h2><span class="glyphicon glyphicon-plus" style="color:pink" ng-click="showResolved=!showResolved"></span> Resolvidos</h2>
+			<h2><span class="glyphicon glyphicon-plus small" style="color:pink" ng-click="showResolved=!showResolved"></span> Resolvidos</h2>
 		</div>
 		<div class="column-cards" ng-show="showResolved" >
 			<div class="portlet" ng-repeat="item in items | orderBy:'id' | filter:searchText | filter:{status: 'returned'}">
@@ -168,7 +200,7 @@
         </div>
 
 		<!--Botao de adicionar Item-->
-		<div class="", id="add-button" style="margin-right:100px">
+		<div id="add-button" style="margin-right:100px">
 			<button role="Tasddsa" class="btn btn-primary" id="btn-add" data-toggle="modal" data-target="#new-item">
 			  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 			</button>
@@ -191,18 +223,18 @@
 			              <input type="radio" name="inlineRadioOptions" ng-model="foundLostObj" id="inlineRadio2" value="lost"> Perdido
 			            </label>
 			            <br><br>
-			            <input type="text" class="form-control" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
+			            <input type="text" class="form-control" id="itemTitle" placeholder="Título" maxlength="50" name="name" minlenght="1" required>
 			            <br>
-			            <textarea class="form-control" rows="3" placeholder="Descrição" name="text" maxlength="200"></textarea>
+			            <textarea class="form-control" rows="3" id="itemDescription" placeholder="Descrição" name="text" maxlength="200"></textarea>
 									<br>
 									<label>Categoria</label>
-									<select class="form-control" required name="category">
+									<select class="form-control" id="itemCategory" required name="category">
 											<option value = 'Outro' selected class="text-hide">Outro</option>
 											<option value = 'Roupa' >Roupa</option>
 											<option value = 'Estojo' >Estojo</option>
 										</select>
 									<br>
-									<input required class="form-control" type="email" name="email" placeholder="Seu email">
+									<input required class="form-control" id="curUserEmail" type="email" name="email" placeholder="Seu email">
 									<br>
 									<label>Foto (JPEG, JPG, PNG) </label>
 								    <div ng-show="addItemForm.$submitted && addItemForm.file.$touched">
@@ -213,7 +245,7 @@
 									<input type="file" name="file" ng-model="filePathName" required=''>
 									<div class="pull-right">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
-										<button type="submit" class="btn btn-primary">Cadastrar</button>
+										<button type="submit" id="addItem" class="btn btn-primary">Cadastrar</button>
 									</div>
 									<br>
 			          </div>
@@ -223,5 +255,4 @@
 			  </div>
 			</div>
 		</div>
-	</div>
 </div>

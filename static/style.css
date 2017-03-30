@@ -1,7 +1,10 @@
-html, body {
+body, html{
+	height: 100%;
 	margin: 0;
 	padding: 0;
-	height: 100%;
+ 	background-repeat: no-repeat;
+ 	background-color: #f3f3f4;
+ 	font-family: 'Oxygen', sans-serif;
 }
 
 #wrapper {
@@ -80,10 +83,28 @@ html, body {
 	float: right;
 	width: 100%;
 }
+
 .row {
 	display: flex !important;
 	min-height: 50px !important;
 	padding-top: 50px;
+}
+
+.navbar-mimacher {
+	top: 0;
+	position: relative;
+	padding-top: 10px;
+	background: #f3f3f4;
+	border-bottom: 1px solid #E6E6E6;
+	transition: top 0.2s ease-in-out;
+}
+
+.navbar-mimacher-down {
+	top: 0px;
+}
+
+.navbar-mimacher-up {
+	top: -100px;
 }
 
 #main-content .row .navbar {
@@ -163,13 +184,7 @@ footer {
   width: 50px !important;
 }
 
-body, html{
-	height: 100%;
- 	background-repeat: no-repeat;
- 	background-color: #f3f3f4;
- 	font-family: 'Oxygen', sans-serif;
- 	height: 100%;
-}
+
 .main{
  	margin-top: 70px;
 }
@@ -383,4 +398,43 @@ h1.panel-title {
 
 .alert {
 	width: 600px;
+}
+
+#icon-mimacher {
+	width: 100px;
+	height: 80px;
+	display: inline;
+}
+
+a > .pull-right {
+	opacity: 0.5;
+	padding: 4px;
+	border-radius: 22px;
+	position: relative;
+	top: -3px;
+    background: #fffabe;
+}
+
+a > .pull-right:hover {
+    -webkit-animation: mymove 1s infinite; /* Safari 4.0 - 8.0 */
+    animation: mymove 1s infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes mymove {
+    from {
+    	opacity: 0.5;
+    }
+    to {
+    	opacity: 1.0;
+    }
+}
+
+@keyframes mymove {
+    from {
+    	opacity: 0.5;
+    }
+    to {
+    	opacity: 1.0;
+    }
 }
